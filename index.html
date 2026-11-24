@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desantara - Beranda & Katalog UMKM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand" onclick="switchPage('beranda'); return false;">
+        <span class="brand-icon">🌿</span>
+        <span class="brand-text">Desa<span>ntara</span></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#" class="nav-link active" data-page="beranda" onclick="switchPage('beranda'); return false;">Beranda</a>
+        <a href="#" class="nav-link" data-page="katalog" onclick="switchPage('katalog'); return false;">Katalog</a>
+        <a href="#" class="nav-link" onclick="openInfoModal('profil'); return false;">Profil UMKM</a>
+        <a href="#" class="nav-link" onclick="openInfoModal('lacak'); return false;">Lacak Pesanan</a>
+        <a href="#" class="nav-link" onclick="openInfoModal('tentang'); return false;">Tentang Desa</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="nav-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearchInput" placeholder="Cari keripik, anyaman, hasil tani UMKM..." oninput="handleGlobalSearch(this.value)" />
+        </div>
+
+        <button class="cart-btn" onclick="toggleCart(true)" title="Keranjang Belanja">
+          🛍️
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+
+        <div class="user-profile">
+          <div class="user-avatar">BS</div>
+          <div class="user-info">
+            <span class="user-name">Budi Santoso</span>
+            <span class="user-role">Pembeli</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HALAMAN 1: BERANDA ==================== -->
+  <main id="page-beranda" class="page active">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-badge">📍 Produk Lokal Asli Desa Kebonagung, Sidoarjo</div>
+        <h1>Produk Otentik Desa,<br /><span>Langsung dari Warganya.</span></h1>
+        <p class="hero-desc">
+          Dukung kemandirian ekonomi lokal dengan berbelanja camilan tradisional higienis dan kerajinan tangan berkualitas langsung dari pelaku UMKM Desa Kebonagung.
+        </p>
+
+        <form class="hero-search-box" onsubmit="handleHeroSearch(event)">
+          <span class="hero-search-icon">🔍</span>
+          <input type="text" id="heroSearchInput" placeholder="Cari keripik singkong, rengginang, tas anyaman..." />
+          <button type="submit" class="btn-primary">Cari Produk</button>
+        </form>
+
+        <div class="hero-tags">
+          <span>Populer:</span>
+          <button type="button" onclick="quickSearch('Keripik Singkong')">Keripik Singkong</button>
+          <button type="button" onclick="quickSearch('Anyaman Pandan')">Anyaman Pandan</button>
+          <button type="button" onclick="quickSearch('Rengginang')">Rengginang</button>
+          <button type="button" onclick="quickSearch('Keripik Tempe')">Keripik Tempe</button>
+        </div>
+
+        <div class="hero-trust">
+          <div class="trust-item">✅ 100% Produk Asli Desa</div>
+          <div class="trust-item">🤝 Dukungan Langsung UMKM</div>
+          <div class="trust-item">🌿 Kualitas Terjamin & Segar</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kategori Pilihan -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">EKSPLORASI KATEGORI</span>
+            <h2>Kategori Pilihan</h2>
+          </div>
+          <a href="#" class="link-arrow" onclick="switchPage('katalog'); return false;">Lihat Semua Katalog →</a>
+        </div>
+
+        <div class="category-grid">
+          <div class="category-card" onclick="goToCatalogCategory('Olahan Pangan & Camilan')">
+            <div class="cat-icon green">🍘</div>
+            <div>
+              <h3>Olahan Pangan & Camilan</h3>
+              <p>7 Produk Tersedia</p>
+            </div>
+          </div>
+          <div class="category-card" onclick="goToCatalogCategory('Kriya & Kerajinan Tangan')">
+            <div class="cat-icon amber">🧺</div>
+            <div>
+              <h3>Kriya & Kerajinan Tangan</h3>
+              <p>1 Produk Tersedia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Produk Unggulan & Terbaru -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">PILIHAN TERBAIK WARGA</span>
+            <h2>Produk Unggulan & Terbaru</h2>
+          </div>
+          <div class="pill-tabs" id="homeTypeTabs">
+            <button class="pill-tab active" onclick="filterHomeProducts('Semua', this)">Semua</button>
+            <button class="pill-tab" onclick="filterHomeProducts('Organik', this)">Organik</button>
+            <button class="pill-tab" onclick="filterHomeProducts('Handmade', this)">Handmade</button>
+          </div>
+        </div>
+
+        <div class="product-grid grid-4" id="homeProductGrid"></div>
+      </div>
+    </section>
+
+    <!-- UMKM Inspiratif Desa -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">KISAH PENGGERAK EKONOMI</span>
+            <h2>UMKM Inspiratif Desa</h2>
+          </div>
+        </div>
+
+        <div class="spotlight-card">
+          <img
+            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80"
+            alt="Camilan & Kerajinan Bu Siti"
+            class="spotlight-img"
+          />
+          <div class="spotlight-body">
+            <span class="badge-soft">📍 Desa Kebonagung, Sidoarjo</span>
+            <h3>Camilan & Kerajinan Bu Siti: Usaha Rumahan yang Memberdayakan Ibu-Ibu Desa</h3>
+            <p>
+              Berawal dari dapur sederhana di Desa Kebonagung, Ibu Siti mengolah hasil bumi lokal seperti singkong, pisang, dan kacang menjadi aneka camilan renyah tanpa pengawet buatan serta menggandeng pengrajin anyaman pandan setempat.
+            </p>
+            <a href="#" class="link-arrow" onclick="switchPage('katalog'); return false;">Lihat Semua Produk Bu Siti (8) →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lokasi Sentra UMKM -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">PETA DIGITAL UMKM</span>
+            <h2>Lokasi Sentra UMKM Desa Kebonagung, Sidoarjo</h2>
+            <p class="section-sub">Kunjungi langsung rumah produksi dan galeri oleh-oleh khas Desa Kebonagung.</p>
+          </div>
+          <a href="https://maps.google.com/?q=Desa+Kebonagung+Sidoarjo" target="_blank" rel="noreferrer" class="btn-primary btn-sm">
+            Buka Google Maps ↗
+          </a>
+        </div>
+
+        <div class="map-layout">
+          <div class="map-canvas">
+            <svg viewBox="0 0 600 320" class="vector-map" aria-label="Peta Desa Kebonagung">
+              <rect width="600" height="320" fill="#eef4ef" />
+              <path d="M0,90 Q200,110 350,70 T600,100" stroke="#ffffff" stroke-width="18" fill="none" />
+              <path d="M120,0 L160,320" stroke="#ffffff" stroke-width="14" fill="none" />
+              <path d="M380,0 L340,320" stroke="#ffffff" stroke-width="16" fill="none" />
+              <path d="M0,230 L600,210" stroke="#ffffff" stroke-width="14" fill="none" />
+              <path d="M460,0 Q490,160 440,320" stroke="#cbe5f6" stroke-width="12" fill="none" />
+              <rect x="185" y="105" width="130" height="75" rx="10" fill="#d8ebd9" />
+              <circle cx="355" cy="145" r="18" fill="#15653a" fill-opacity="0.2" />
+              <circle cx="355" cy="145" r="8" fill="#15653a" stroke="#ffffff" stroke-width="2.5" />
+            </svg>
+            <div class="map-pin-card">
+              <strong>📍 Sentra Camilan Bu Siti</strong>
+              <span>Jl. Raya Kebonagung No. 14, Sukodono, Sidoarjo</span>
+            </div>
+          </div>
+
+          <div class="store-card">
+            <div class="store-header">
+              <span class="store-icon">🏪</span>
+              <div>
+                <h4>Camilan & Kerajinan Bu Siti</h4>
+                <p>Desa Kebonagung, Kec. Sukodono, Kab. Sidoarjo</p>
+              </div>
+            </div>
+            <div class="store-details">
+              <div class="detail-row"><span>Status Toko</span><strong class="text-green">● Buka Sekarang</strong></div>
+              <div class="detail-row"><span>Jam Operasional</span><strong>08:00 – 17:00 WIB</strong></div>
+              <div class="detail-row"><span>WhatsApp Mitra</span><strong>+62 819-4491-6665</strong></div>
+              <div class="detail-row"><span>Total Katalog</span><strong>8 Produk Aktif</strong></div>
+            </div>
+            <div class="store-actions">
+              <a href="https://wa.me/6281944916665" target="_blank" rel="noreferrer" class="btn-primary full-width">💬 Hubungi via WhatsApp</a>
+              <button type="button" class="btn-outline full-width" onclick="switchPage('katalog')">Lihat Katalog Toko</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cara Berbelanja -->
+    <section class="section">
+      <div class="container">
+        <div class="section-center-header">
+          <span class="section-eyebrow">PANDUAN SINGKAT</span>
+          <h2>Cara Berbelanja Sangat Mudah</h2>
+          <p>Tiga langkah praktis untuk menikmati produk otentik langsung dari UMKM desa.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Pilih Produk Desa</h3>
+            <p>Jelajahi katalog camilan khas atau kerajinan tangan dan masukkan ke keranjang belanja Anda.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Pesan & Konfirmasi</h3>
+            <p>Periksa rincian pesanan Anda di keranjang dan selesaikan proses pemesanan secara instan.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Kirim ke Rumah</h3>
+            <p>Pesanan dikemas segar langsung oleh mitra UMKM Desa Kebonagung dan dikirim ke alamat Anda.</p>
+          </div>
+        </div>
+
+        <!-- CTA Banner -->
+        <div class="cta-banner">
+          <div>
+            <span class="cta-tag">MITRA UMKM DESA</span>
+            <h2>Punya Produk Desa? Buka Toko Gratis dalam 5 Menit</h2>
+            <p>Jangkau lebih banyak pembeli di seluruh Indonesia tanpa biaya pendaftaran.</p>
+          </div>
+          <button type="button" class="btn-white" onclick="openInfoModal('daftar')">Daftar Sekarang →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== HALAMAN 2: KATALOG ==================== -->
+  <main id="page-katalog" class="page">
+    <section class="catalog-section">
+      <div class="container catalog-layout">
+        <!-- Sidebar Filter -->
+        <aside class="filter-sidebar">
+          <div class="filter-header">
+            <h3>Filter</h3>
+            <button type="button" class="btn-reset" onclick="resetFilters()">Atur ulang</button>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterKeyword">Kata kunci</label>
+            <input type="text" id="filterKeyword" placeholder="Cari produk..." oninput="applyCatalogFilters()" />
+          </div>
+
+          <div class="filter-group">
+            <label>Kategori</label>
+            <div class="radio-list">
+              <label class="radio-item">
+                <input type="radio" name="filterCategory" value="Semua" checked onchange="applyCatalogFilters()" />
+                <span>Semua kategori</span>
+                <small>8</small>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="filterCategory" value="Olahan Pangan & Camilan" onchange="applyCatalogFilters()" />
+                <span>Olahan Pangan & Camilan</span>
+                <small>7</small>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="filterCategory" value="Kriya & Kerajinan Tangan" onchange="applyCatalogFilters()" />
+                <span>Kriya & Kerajinan Tangan</span>
+                <small>1</small>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Jenis produk</label>
+            <div class="type-pills" id="catalogTypePills">
+              <button type="button" class="type-pill active" data-type="Semua" onclick="selectCatalogType('Semua', this)">Semua</button>
+              <button type="button" class="type-pill" data-type="Organik" onclick="selectCatalogType('Organik', this)">Organik</button>
+              <button type="button" class="type-pill" data-type="Handmade" onclick="selectCatalogType('Handmade', this)">Handmade</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Rentang harga (Rp)</label>
+            <div class="price-inputs">
+              <input type="number" id="filterMinPrice" placeholder="Min" min="0" />
+              <span>-</span>
+              <input type="number" id="filterMaxPrice" placeholder="Maks" min="0" />
+            </div>
+          </div>
+
+          <button type="button" class="btn-primary full-width" onclick="applyCatalogFilters()">Terapkan Filter</button>
+        </aside>
+
+        <!-- Konten Utama Katalog -->
+        <div class="catalog-main">
+          <div class="catalog-topbar">
+            <p class="result-count">Menampilkan <strong id="catalogCount">8</strong> produk</p>
+            <div class="sort-box">
+              <label for="sortSelect">Urutkan</label>
+              <select id="sortSelect" onchange="applyCatalogFilters()">
+                <option value="terlaris">Terlaris</option>
+                <option value="termurah">Harga Terendah</option>
+                <option value="termahal">Harga Tertinggi</option>
+                <option value="rating">Rating Tertinggi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="product-grid grid-3" id="catalogProductGrid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <span class="brand-icon">🌿</span>
+          <span class="brand-text">Desa<span>ntara</span></span>
+        </div>
+        <p>
+          Pusat digital dan e-commerce produk UMKM desa. Menghubungkan potensi camilan khas Ibu Siti dan mitra UMKM desa langsung ke konsumen.
+        </p>
+      </div>
+
+      <div>
+        <h4>Kemitraan UMKM</h4>
+        <ul>
+          <li><a href="#" onclick="switchPage('katalog'); return false;">UMKM Bu Siti (Sidoarjo)</a></li>
+          <li><a href="#" onclick="openInfoModal('profil'); return false;">Daftar UMKM Mitra</a></li>
+          <li><a href="#" onclick="openInfoModal('daftar'); return false;">Pendaftaran Toko Baru</a></li>
+          <li><a href="#" onclick="openInfoModal('profil'); return false;">Dasbor Penjual</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Layanan Pembeli</h4>
+        <ul>
+          <li><a href="#" onclick="switchPage('katalog'); return false;">Katalog Produk</a></li>
+          <li><a href="#" onclick="openInfoModal('lacak'); return false;">Riwayat Pesanan</a></li>
+          <li><a href="#" onclick="openInfoModal('lacak'); return false;">Lacak Pengiriman</a></li>
+          <li><a href="#" onclick="switchPage('beranda'); return false;">Panduan Belanja</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Kontak Layanan</h4>
+        <ul class="contact-list">
+          <li>Pusat Bantuan: <strong>081944916665</strong></li>
+          <li>WhatsApp: <strong>+62 819-4491-6665</strong></li>
+          <li>Email: <strong>halo@desantara.id</strong></li>
+        </ul>
+        <div class="ops-badge">Operasional: 08:00 – 17:00 WIB</div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 Desantara. Mini Project Fantastic Four (Alif, Putra, dkk) — CELERATES.</p>
+      <div class="footer-legal">
+        <a href="#" onclick="return false;">Privasi</a>
+        <a href="#" onclick="return false;">Ketentuan</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== DRAWER KERANJANG ==================== -->
+  <div class="drawer-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <h3>Keranjang Belanja</h3>
+      <button type="button" class="close-btn" onclick="toggleCart(false)">✕</button>
+    </div>
+    <div class="drawer-body" id="cartItemsContainer"></div>
+    <div class="drawer-footer">
+      <div class="cart-total-row">
+        <span>Total Pembayaran</span>
+        <strong id="cartTotalPrice">Rp 0</strong>
+      </div>
+      <button type="button" class="btn-primary full-width" onclick="checkoutCart()">Checkout Sekarang</button>
+    </div>
+  </aside>
+
+  <!-- ==================== MODAL INFO / DETAIL ==================== -->
+  <div class="modal-overlay" id="infoModal" onclick="closeInfoModal(event)">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Informasi</h3>
+        <button type="button" class="close-btn" onclick="closeInfoModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast">Produk ditambahkan ke keranjang!</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
